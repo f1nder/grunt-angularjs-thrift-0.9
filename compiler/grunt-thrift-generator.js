@@ -138,7 +138,9 @@ module.exports = function (grunt) {
       fs.outputFileSync(thriftHeaderFile, '');
       allJsFiles.unshift(thriftHeaderFile);
 
-      concat(allJsFiles, path.join(dstDir, 'compiled_thrift.js'), function cleanUp() {
+      ;
+
+      concat(allJsFiles.sort(sortByType).reverse(), path.join(dstDir, 'compiled_thrift.js'), function cleanUp() {
           if (!isDebugMode) {
             fs.deleteSync(tmpBuildDir);
           }
@@ -153,4 +155,9 @@ module.exports = function (grunt) {
 
 function isFullString(s) {
   return util.isString(s) && s.length > 0;
+}
+
+
+function sortByType(a, b) {
+  return a.indexOf('_types');
 }
